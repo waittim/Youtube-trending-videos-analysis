@@ -1,0 +1,84 @@
+---
+title: "20-explore"
+output: html_notebook
+---
+
+## Overview
+
+For the operation in the future, having a overview can help us understand the dataset easily.
+
+```{r overview}
+dim(USvideos)
+str(USvideos)
+```
+
+
+## Assert outlier
+
+Now we need to make sure is there any outlier or mistake in the dataset.
+
+
+### Assert category_id
+
+First, test the column called "category_id". There are 43 categories, therefore the values in the column should not be bigger than 43 or smaller than 1.
+
+```{r assert category}
+assert(data = USvideos, in_set(1, 43, allow.na = FALSE), category_id) 
+```
+
+There are 5 rows have *NA* in this column, we can just remove them later.
+
+### Assert numerical columns
+
+For the numerical columns in the dataset, based on the reality, all of them should be positive.
+
+```{r assert positive number}
+assert(data = USvideos, within_bounds(lower.bound = 0, upper.bound = Inf, allow.na = FALSE), views)
+assert(data = USvideos, within_bounds(lower.bound = 0,upper.bound = Inf, allow.na = FALSE), likes)
+assert(data = USvideos, within_bounds(lower.bound = 0, upper.bound = Inf, allow.na = FALSE), dislikes)
+assert(data = USvideos, within_bounds(lower.bound = 0, upper.bound = Inf, allow.na = FALSE), comment_count)
+```
+
+Fortunately, all of the numbers are positive. There is no mistake.
+
+### Aassert logical columns
+
+And for the logical columns, all of the values should be TRUE or FALSE.
+
+```{r assert logical}
+assert(data = USvideos, in_set(TRUE, FALSE, allow.na = FALSE), comments_disabled)
+assert(data = USvideos, in_set(TRUE, FALSE, allow.na = FALSE), ratings_disabled)
+assert(data = USvideos, in_set(TRUE, FALSE, allow.na = FALSE), video_error_or_removed) 
+```
+
+And there is no error too.
+
+
+## Clean the data. 
+
+### Remove *NA*
+
+Because there are only several observations with NA values, we can just remove all of the rows which have NA value.
+```{r remove NA}
+USvideos_NNA <- as.data.frame(na.omit(USvideos))
+USvideos_NNA
+```
+
+### Convert date column
+
+Then we need to convert the column called "trending_date" with character type to normal date format in "lubridate" package.
+
+```{r comvert to lubridate}
+USvideos_NNA <- USvideos_NNA %>%
+  mutate(trending_date = ydm(trending_date))
+```
+
+
+## Result overview
+
+Now let's look through the structure of dataset again.
+
+```{r result overview}
+str(USvideos_NNA)
+```
+

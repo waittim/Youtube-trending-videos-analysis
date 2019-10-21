@@ -1,0 +1,28 @@
+---
+title: "10-import"
+output: html_notebook
+---
+
+## Load the libraries
+Library list: 
+
+(The packages will be used, except the packages inside the feature engineering functions.)
+
+```{r libraries_list}
+library(readr)
+library(janitor)
+library(assertr)
+library(tidyverse)
+library(lubridate)
+library(glue)
+```
+
+## Load data
+
+Now we can import the dataset and clean the names first.
+
+```{r import data}
+USvideos <- read_csv("data/USvideos.csv") %>%
+  clean_names()
+```
+
