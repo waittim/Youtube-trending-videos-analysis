@@ -65,6 +65,7 @@ select(time_year,time_month,time_day,time_hour,time_minute,time_second)
 
 ### Get week day
 
+Definitely, the weekday will influence the views of videos in the first several publish day. 
 ```{r get_weekday}
 get_weekday <- function(df, time_column){
   library(lubridate)
@@ -75,6 +76,7 @@ get_weekday <- function(df, time_column){
 }
 ```
 
+Test the function.
 ```{r get_weekday test}
 get_weekday(USvideos_NNA, publish_time) %>%
   select(publish_time, weekday)
@@ -116,6 +118,7 @@ count_pattern(USvideos_NNA, tags) %>%
 
 ### Count uppercase
 
+Uppercase can catch viewers attention sometimes, therefore, it might influence the result.
 ```{r count_uppercase}
 count_uppercase <- function(df, chr_column){
   library(tidyverse)
@@ -124,6 +127,7 @@ count_uppercase <- function(df, chr_column){
 }
 ```
 
+Test the function.
 ```{r count_uppercase test}
 count_uppercase(USvideos_NNA, title) %>%
   select(title, chr_upper_num)
@@ -131,6 +135,7 @@ count_uppercase(USvideos_NNA, title) %>%
 
 ### Count symbol
 
+Similar to the uppercase letter, the patterns like "?" and "!" might influence the viewers' attention too. 
 ```{r count_symbol}
 count_symbol <- function(df, chr_column){
   library(tidyverse)
@@ -139,6 +144,7 @@ count_symbol <- function(df, chr_column){
 }
 ```
 
+Test the function.
 ```{r}
 count_symbol(USvideos_NNA, title) %>%
   select(title, chr_symbol_num)
@@ -206,15 +212,13 @@ convert_to_01(USvideos_NNA, comments_disabled, ratings_disabled, video_error_or_
 Now use the functions we defined before to complish the feature engineering.
 ```{r feature engineering}
 USvideos_NNA <- get_day_point(USvideos_NNA, "trending_date")
-
 USvideos_NNA <- get_time_point(USvideos_NNA, "publish_time")
-
+USvideos_NNA <- get_weekday(USvideos_NNA, publish_time)
 USvideos_NNA <- count_rows(USvideos_NNA, description)
-
 USvideos_NNA <- count_pattern(USvideos_NNA, tags)
-
 USvideos_NNA <- get_chr_length(USvideos_NNA, title)
-
+USvideos_NNA <- count_uppercase(USvideos_NNA, title)
+USvideos_NNA <- count_symbol(USvideos_NNA, title) 
 USvideos_NNA <- convert_to_01(USvideos_NNA, comments_disabled, ratings_disabled, video_error_or_removed)
 ```
 
