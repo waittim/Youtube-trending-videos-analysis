@@ -170,18 +170,20 @@ get_chr_length(USvideos_NNA, title) %>%
 
 ### Get ratio
 
-Sometimes we might need calculate the ratio between 2 variables. This function can help us to get the ratio column.
+Sometimes we might need calculate the ratio between 2 variables. This function can help us to get the ratio column.For example, the ratio between likes and dislikes will show us the controversy about the video.
 ```{r get_ratio}
 get_ratio <- function(df, numerator, denominator){
-  if(class(df[[numerator]]) == "double" & class(df[[denominator]]) == "double"){
-    print("numerical format check done.")
-  }else{
-    stop("Not a numerical format.")
-  }
   df %>%
-    mutate(new_col_name = {{numerator}}/{{denominator}})
+    mutate(likes_rate = {{numerator}}/({{denominator}}))
 }
 ```
+
+Test the function.
+```{r}
+get_ratio(USvideos_NNA, likes, dislikes) %>%
+  select(likes,dislikes,likes_rate)
+```
+
 
 ### Convert logical to 0/1
 
@@ -229,6 +231,7 @@ class_level(USvideos_NNA, views) %>%
 Now use the functions we defined before to complish the feature engineering.
 ```{r feature engineering}
 USvideos_NNA <- class_level(USvideos_NNA, views)
+USvideos_NNA <- get_ratio(USvideos_NNA, likes, dislikes)
 USvideos_NNA <- get_day_point(USvideos_NNA, "trending_date")
 USvideos_NNA <- get_time_point(USvideos_NNA, "publish_time")
 USvideos_NNA <- get_weekday(USvideos_NNA, publish_time)
