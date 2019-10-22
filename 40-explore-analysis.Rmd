@@ -3,6 +3,74 @@ title: "40-explore-analysis"
 output: html_notebook
 ---
 
+```{r}
+USvideos_NNA %>%
+  group_by(category_id) %>%
+  summarise(num=n()) %>%
+  arrange(-num) %>%
+  ggplot() +
+  geom_col(aes(x=category_id, y=num))
+```
+
+```{r}
+USvideos_NNA %>%
+  group_by(weekday) %>%
+  summarise(num=n()) %>%
+  arrange(-num) %>%
+  ggplot() +
+  geom_col(aes(x=weekday, y=num))
+```
 
 
+```{r}
+USvideos_NNA %>%
+  group_by(time_month) %>%
+  summarise(num=n()) %>%
+  arrange(-num) %>%
+  ggplot() +
+  geom_col(aes(x=time_month, y=num))
+```
+
+```{r}
+USvideos_NNA %>%
+  group_by(time_hour) %>%
+  summarise(num=n()) %>%
+  arrange(-num) %>%
+  ggplot() +
+  geom_col(aes(x=time_hour, y=num))
+```
+
+```{r}
+USvideos_NNA %>%
+  ggplot() +
+  geom_jitter(aes(x=chr_row_num,y=views), size=0.01)
+```
+
+```{r}
+USvideos_NNA %>%
+  ggplot() +
+  geom_jitter(aes(x=pattern_num,y=views), size=0.01)
+```
+
+```{r}
+USvideos_NNA %>%
+  ggplot() +
+  geom_jitter(aes(x=chr_length,y=views), size=0.01)
+```
+
+```{r}
+USvideos_NNA %>%
+  ggplot() +
+  geom_jitter(aes(x=chr_upper_num,y=views), size=0.01)
+```
+
+```{r}
+USvideos_NNA %>%
+  ggplot() +
+  geom_jitter(aes(x=chr_symbol_num,y=views), size=0.01)
+```
+
+```{r}
+
+```
 
