@@ -70,7 +70,5 @@ USvideos_NNA %>%
   geom_jitter(aes(x=chr_symbol_num,y=views), size=0.01)
 ```
 
-```{r}
 
-```
 
