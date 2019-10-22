@@ -204,6 +204,23 @@ convert_to_01(USvideos_NNA, comments_disabled, ratings_disabled, video_error_or_
   select(comments_disabled,ratings_disabled,video_error_or_removed)
 ```
 
+### class the trending
+```{r}
+class_level <- function(df, column){
+
+  df %>%
+    mutate( level= case_when({{column}} < quantile({{column}}, 0.25)[[1]] ~ "level1",
+                             {{column}} >= quantile({{column}}, 0.25)[[1]] & {{column}} < median({{column}}) ~ "level2",
+                             {{column}} >= median({{column}}) & {{column}} < quantile({{column}}, 0.75)[[1]] ~ "level3",
+                             {{column}} >= quantile({{column}}, 0.75)[[1]] ~ "level4"
+                             ))
+}
+```
+
+```{r}
+class_level(USvideos_NNA, views) %>%
+  select(views,level)
+```
 
 
 
@@ -211,6 +228,7 @@ convert_to_01(USvideos_NNA, comments_disabled, ratings_disabled, video_error_or_
 
 Now use the functions we defined before to complish the feature engineering.
 ```{r feature engineering}
+USvideos_NNA <- class_level(USvideos_NNA, views)
 USvideos_NNA <- get_day_point(USvideos_NNA, "trending_date")
 USvideos_NNA <- get_time_point(USvideos_NNA, "publish_time")
 USvideos_NNA <- get_weekday(USvideos_NNA, publish_time)
