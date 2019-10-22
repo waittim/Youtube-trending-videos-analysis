@@ -203,7 +203,9 @@ convert_to_01(USvideos_NNA, comments_disabled, ratings_disabled, video_error_or_
 ```
 
 ### Class the trending
-```{r}
+
+For creating the machine learning model esaier, we can just label the videos by views number, so label them as 4 levels. The watershed should be quantile 25 and median and quantile 75.
+```{r Class the trending}
 class_level <- function(df, column){
 
   df %>%
@@ -215,7 +217,8 @@ class_level <- function(df, column){
 }
 ```
 
-```{r}
+Test the function.
+```{r Class the trending test}
 class_level(USvideos_NNA, views) %>%
   select(views,level)
 ```
