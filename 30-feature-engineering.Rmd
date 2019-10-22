@@ -204,7 +204,7 @@ convert_to_01(USvideos_NNA, comments_disabled, ratings_disabled, video_error_or_
   select(comments_disabled,ratings_disabled,video_error_or_removed)
 ```
 
-### class the trending
+### Class the trending
 ```{r}
 class_level <- function(df, column){
 
