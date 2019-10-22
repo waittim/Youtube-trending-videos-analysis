@@ -5,6 +5,14 @@ output: html_notebook
 
 ```{r}
 USvideos_NNA %>%
+  ggplot()+
+  geom_histogram(aes(x=views, y=stat(density)),binwidth=0.2)+
+  geom_density(aes(x=views, y=stat(density)))+
+  scale_x_log10()
+```
+
+```{r}
+USvideos_NNA %>%
   group_by(category_id) %>%
   summarise(num=n()) %>%
   arrange(-num) %>%
