@@ -227,3 +227,10 @@ A quick overview after the feature engineering result.
 head(USvideos_NNA)
 ```
 
+## Save the data
+
+```{r}
+USvideos_NNA %>%
+  select(views, likes, dislikes, comment_count, everything()) %>%
+  write_csv("data/USvideos_fe.csv")
+```
