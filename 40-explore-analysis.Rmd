@@ -6,22 +6,32 @@ output: html_notebook
 ```{r}
 USvideos_NNA %>%
   ggplot()+
-  geom_histogram(aes(x=views, y=stat(density)),binwidth=0.2)+
-  geom_density(aes(x=views, y=stat(density)))+
-  scale_x_log10()
+  #geom_histogram(aes(x=views, y=stat(density)),binwidth=0.1) +
+  geom_density(aes(x=views, y=stat(density))) +
+  scale_x_log10() 
 ```
 
 ```{r}
 USvideos_NNA %>%
+  mutate(category_id=as.character(category_id)) %>%
   group_by(category_id) %>%
   summarise(num=n()) %>%
-  filter(num>0) %>%
   ggplot() +
-  geom_col(aes(x=category_id, y=num))
+  geom_col(aes(x=reorder(category_id,-num), y=num))
 ```
 
 ```{r}
 USvideos_NNA %>%
+  mutate(category_id=as.character(category_id)) %>%
+  group_by(category_id) %>%
+  summarise(num=n()) %>%
+  ggplot() +
+  geom_col(aes(x=category_id, y=num)) 
+```
+
+```{r}
+USvideos_NNA %>%
+  mutate(category_id=as.character(category_id)) %>%
   ggplot()+
   geom_jitter(aes(x= category_id, y= views),size=0.2)
 ```
