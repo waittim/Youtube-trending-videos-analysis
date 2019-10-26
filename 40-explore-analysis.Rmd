@@ -4,122 +4,250 @@ output: html_notebook
 ---
 
 ```{r}
+fancy_scientific <- function(l) {
+     # turn in to character string in scientific notation
+     l <- format(l, scientific = TRUE)
+     # quote the part before the exponent to keep all the digits
+     l <- gsub("^(.*)e", "'\\1'e", l)
+     # turn the 'e+' into plotmath format
+     l <- gsub("e", "%*%10^", l)
+     # return this as an expression
+     parse(text=l)
+}
+```
+
+
+```{r}
 USvideos_NNA %>%
   ggplot()+
-  #geom_histogram(aes(x=views, y=stat(density)),binwidth=0.1) +
-  geom_density(aes(x=views, y=stat(density))) +
+  geom_density(aes(x=views, y=stat(density)),fill="#F7000B", color=NA, alpha=0.7) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  ) +
   scale_x_log10() 
 ```
 
 ```{r}
 USvideos_NNA %>%
-  mutate(category_id=as.character(category_id)) %>%
-  group_by(category_id) %>%
-  summarise(num=n()) %>%
-  ggplot() +
-  geom_col(aes(x=reorder(category_id,-num), y=num))
-```
-
-```{r}
-USvideos_NNA %>%
-  mutate(category_id=as.character(category_id)) %>%
-  group_by(category_id) %>%
-  summarise(num=n()) %>%
-  ggplot() +
-  geom_col(aes(x=category_id, y=num)) 
-```
-
-```{r}
-USvideos_NNA %>%
-  mutate(category_id=as.character(category_id)) %>%
   ggplot()+
-  geom_jitter(aes(x= category_id, y= views),size=0.2)
+  #geom_histogram(aes(x=views, y=stat(density)),binwidth=0.1) +
+  geom_density(aes(x=likes, y=stat(density)),fill="#F7000B", color=NA,alpha=0.7) +
+  geom_density(aes(x=dislikes, y=stat(density)),fill="black", color=NA,alpha=0.7) +
+  scale_x_log10() +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
 ```
+```{r}
+USvideos_NNA %>%
+  ggplot()+
+  geom_density(aes(x=comment_count, y=stat(density)),fill="#F7000B", color=NA, alpha=0.7) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  ) +
+  scale_x_log10() 
+```
+
+
+```{r}
+USvideos_NNA %>%
+  mutate(category_id=as.character(category_id)) %>%
+  group_by(category_id) %>%
+  summarise(num=n()) %>%
+  ggplot() +
+  geom_col(aes(x=reorder(category_id,-num), y=num), fill="#F7000B", alpha=0.7)+
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
+```
+
+```{r}
+USvideos_NNA %>%
+  mutate(category_id=as.character(category_id)) %>%
+  group_by(category_id) %>%
+  mutate(num=n()) %>%
+  ungroup() %>% 
+  ggplot() +
+  geom_col(aes(x=category_id, y=num),fill="#F7000B") +
+
+  geom_jitter(aes(x= category_id, y= views),size=0.2,color="black",width = 0.25) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  ) +
+  scale_x_discrete(labels = c("Film & Animation", "Music", "Pets & Animals", "Sports", "Travel & Events", "Autos & Vehicles", "Gaming", "People & Blogs", "Comedy", "Entertainment", "News & Politics", "Howto & Style", "Education","Science & Technology","Nonprofit", "Shows"))+
+  coord_flip()
+
+```
+
+
 
 
 ```{r}
 USvideos_NNA %>%
   group_by(weekday) %>%
-  summarise(num=n()) %>%
-  arrange(-num) %>%
-  ggplot() +
-  geom_col(aes(x=weekday, y=num))
+  mutate(num=n()) %>%
+  ggplot(aes(x=weekday)) +
+  geom_col(aes(y=num),fill="#F7000B") +
+  geom_jitter(aes(y= views),size=0.2,color="black") +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )+
+  coord_flip()
+
 ```
 
-```{r}
-USvideos_NNA %>%
-  ggplot()+
-  geom_jitter(aes(x= weekday, y= views),size=0.2)
-```
+
 
 
 ```{r}
 USvideos_NNA %>%
   group_by(time_month) %>%
-  summarise(num=n()) %>%
-  arrange(-num) %>%
+  mutate(num=n()) %>%
   ggplot() +
-  geom_col(aes(x=time_month, y=num))
+  geom_col(aes(x=time_month, y=num),fill="#F7000B") +
+  geom_jitter(aes(x= time_month, y= views),size=0.2, alpha=0.7,width = 0.3) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )+
+  coord_flip()
+
 ```
 
-```{r}
-USvideos_NNA %>%
-  ggplot()+
-  geom_jitter(aes(x= time_month, y= views),size=0.2)
-```
+
 
 
 ```{r}
 USvideos_NNA %>%
   group_by(time_hour) %>%
-  summarise(num=n()) %>%
-  arrange(-num) %>%
+  mutate(num=n()) %>%
   ggplot() +
-  geom_col(aes(x=time_hour, y=num))
+  #geom_jitter(aes(x= time_hour, y= views),size=0.2,alpha=0.7) +
+  geom_col(aes(x=time_hour, y=num),fill="#F7000B") +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
 ```
 
 ```{r}
 USvideos_NNA %>%
   ggplot()+
-  geom_jitter(aes(x= time_hour, y= views),size=0.2)
+  geom_jitter(aes(x= time_hour, y= views),size=0.2, alpha=0.7) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
+```
+
+```{r}
+USvideos_NNA %>%
+  group_by(chr_row_num) %>%
+  mutate(num=n()) %>%
+  ggplot()+
+  geom_line(aes(x=chr_row_num,y=num))  +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
+```
+
+```{r}
+USvideos_NNA %>%
+  ggplot() +
+  geom_jitter(aes(x=chr_row_num,y=views), size=0.01,color="#F7000B", alpha=0.7) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
+```
+
+```{r}
+USvideos_NNA %>%
+  group_by(pattern_num) %>%
+  mutate(num=n()) %>%
+  ggplot()+
+  geom_line(aes(x=pattern_num,y=num))  +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
+```
+
+```{r}
+USvideos_NNA %>%
+  ggplot() +
+  geom_jitter(aes(x=pattern_num,y=views), size=0.01,color="#F7000B", alpha=0.7) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
+```
+
+```{r}
+USvideos_NNA %>%
+  group_by(chr_length) %>%
+  mutate(num=n()) %>%
+  ggplot()+
+  geom_line(aes(x=chr_length,y=num))  +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
 ```
 
 
 ```{r}
 USvideos_NNA %>%
   ggplot() +
-  geom_jitter(aes(x=chr_row_num,y=views), size=0.01) 
+  geom_jitter(aes(x=chr_length,y=views), size=0.01,color="#F7000B", alpha=0.7) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
+```
+
+```{r}
+USvideos_NNA %>%
+  group_by(chr_upper_num) %>%
+  mutate(num=n()) %>%
+  ggplot()+
+  geom_line(aes(x=chr_upper_num,y=num))  +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
 ```
 
 ```{r}
 USvideos_NNA %>%
   ggplot() +
-  geom_jitter(aes(x=pattern_num,y=views), size=0.01)
+  geom_jitter(aes(x=chr_upper_num,y=views), size=0.01,color="#F7000B", alpha=0.7) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
 ```
 
 ```{r}
-USvideos_NNA %>%
-  ggplot() +
-  geom_jitter(aes(x=chr_length,y=views), size=0.01)
-```
 
-```{r}
-USvideos_NNA %>%
-  ggplot() +
-  geom_jitter(aes(x=chr_upper_num,y=views), size=0.01)
-```
-
-```{r}
-USvideos_NNA %>%
-  ggplot() +
-  geom_jitter(aes(x=chr_symbol_num,y=views), size=0.01)
 ```
 
 ```{r}
 USvideos_NNA %>%
   ggplot()+
-  geom_point(aes(x=likes_rate, y= views),size=0.2)+
-  scale_x_log10()
+  geom_jitter(aes(x=likes_rate, y= views),size=0.2,color="#F7000B", alpha=0.7)+
+  scale_x_log10() +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank()
+  )
 ```
 
 ```{r}
