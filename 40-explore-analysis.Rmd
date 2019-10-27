@@ -40,18 +40,6 @@ USvideos_NNA %>%
 ```
 
 
-```{r}
-USvideos_NNA %>%
-  mutate(category_id=as.character(category_id)) %>%
-  group_by(category_id) %>%
-  summarise(num=n()) %>%
-  ggplot() +
-  geom_col(aes(x=reorder(category_id,-num), y=num), fill="#F7000B", alpha=0.7)+
-  theme_minimal() +
-  theme(
-    panel.grid = element_blank()
-  )
-```
 
 ```{r}
 USvideos_NNA %>%
@@ -61,7 +49,6 @@ USvideos_NNA %>%
   ungroup() %>% 
   ggplot() +
   geom_col(aes(x=category_id, y=num),fill="#F7000B") +
-
   geom_jitter(aes(x= category_id, y= views),size=0.2,color="black",width = 0.25) +
   theme_minimal() +
   theme(
@@ -139,7 +126,8 @@ USvideos_NNA %>%
   group_by(chr_row_num) %>%
   mutate(num=n()) %>%
   ggplot()+
-  geom_line(aes(x=chr_row_num,y=num))  +
+  geom_line(aes(x=chr_row_num,y=num)) +
+  # geom_smooth(aes(x=chr_row_num,y=num),color="#F7000B") +
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -161,7 +149,8 @@ USvideos_NNA %>%
   group_by(pattern_num) %>%
   mutate(num=n()) %>%
   ggplot()+
-  geom_line(aes(x=pattern_num,y=num))  +
+  geom_line(aes(x=pattern_num,y=num)) +
+  geom_smooth(aes(x=pattern_num,y=num), color="#F7000B")+
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -184,6 +173,7 @@ USvideos_NNA %>%
   mutate(num=n()) %>%
   ggplot()+
   geom_line(aes(x=chr_length,y=num))  +
+  geom_smooth(aes(x=chr_length,y=num), color="#F7000B")  +
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -206,7 +196,7 @@ USvideos_NNA %>%
   group_by(chr_upper_num) %>%
   mutate(num=n()) %>%
   ggplot()+
-  geom_line(aes(x=chr_upper_num,y=num))  +
+  geom_line(aes(x=chr_upper_num,y=num)) +
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -223,9 +213,6 @@ USvideos_NNA %>%
   )
 ```
 
-```{r}
-
-```
 
 ```{r}
 USvideos_NNA %>%

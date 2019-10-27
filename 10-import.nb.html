@@ -1755,15 +1755,22 @@ summary {
 <p>Library list:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZWFkcilcbmxpYnJhcnkocmpzb24pXG5saWJyYXJ5KGphbml0b3IpXG5saWJyYXJ5KGFzc2VydHIpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkobHVicmlkYXRlKVxubGlicmFyeShnbHVlKVxuYGBgIn0= -->
-<pre class="r"><code>library(readr)
-library(rjson)
-library(janitor)
-library(assertr)
-library(tidyverse)
-library(lubridate)
-library(glue)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzY2FsZXMpXG5cbmBgYCJ9 -->
+<pre class="r"><code>library(scales)
+</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYc2NhbGVz4oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0IGlzIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6cHVycnLigJk6XG5cbiAgICBkaXNjYXJkXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0IGlzIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6cmVhZHLigJk6XG5cbiAgICBjb2xfZmFjdG9yXG4ifQ== -->
+<pre><code>
+Attaching package: ‘scales’
+
+The following object is masked from ‘package:purrr’:
+
+    discard
+
+The following object is masked from ‘package:readr’:
+
+    col_factor</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1819,7 +1826,7 @@ See problems(...) for more details.</code></pre>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiMTAtaW1wb3J0IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIyBMb2FkIHRoZSBsaWJyYXJpZXMKCkxpYnJhcnkgbGlzdDogCgpgYGB7ciBsaWJyYXJpZXNfbGlzdH0KbGlicmFyeShyZWFkcikKbGlicmFyeShyanNvbikKbGlicmFyeShqYW5pdG9yKQpsaWJyYXJ5KGFzc2VydHIpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKbGlicmFyeShnbHVlKQpgYGAKCiMjIExvYWQgZGF0YQoKTm93IHdlIGNhbiBpbXBvcnQgdGhlIGRhdGFzZXQgYW5kIGNsZWFuIHRoZSBuYW1lcyBmaXJzdC4KCmBgYHtyIGltcG9ydCBkYXRhfQpVU3ZpZGVvcyA8LSByZWFkX2NzdigiZGF0YS9VU3ZpZGVvcy5jc3YiKSAlPiUKICBjbGVhbl9uYW1lcygpCmBgYAoKTm93IGltcG9ydCB0aGUgY2F0ZWdvcnkgbmFtZSBmcm9tIEpTT04gZmlsZS4KYGBge3J9CmNhdGVnb3J5X2lkID0gZnJvbUpTT04oZmlsZSA9ICJkYXRhL1VTX2NhdGVnb3J5X2lkLmpzb24iLCAgdW5leHBlY3RlZC5lc2NhcGUgPSAiZXJyb3IiKQpgYGAKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMTAtaW1wb3J0IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIyBMb2FkIHRoZSBsaWJyYXJpZXMKCkxpYnJhcnkgbGlzdDogCgpgYGB7ciBsaWJyYXJpZXNfbGlzdH0KbGlicmFyeShyZWFkcikKbGlicmFyeShyanNvbikKbGlicmFyeShqYW5pdG9yKQpsaWJyYXJ5KGFzc2VydHIpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKbGlicmFyeShnbHVlKQpsaWJyYXJ5KHNjYWxlcykKYGBgCgojIyBMb2FkIGRhdGEKCk5vdyB3ZSBjYW4gaW1wb3J0IHRoZSBkYXRhc2V0IGFuZCBjbGVhbiB0aGUgbmFtZXMgZmlyc3QuCgpgYGB7ciBpbXBvcnQgZGF0YX0KVVN2aWRlb3MgPC0gcmVhZF9jc3YoImRhdGEvVVN2aWRlb3MuY3N2IikgJT4lCiAgY2xlYW5fbmFtZXMoKQpgYGAKCk5vdyBpbXBvcnQgdGhlIGNhdGVnb3J5IG5hbWUgZnJvbSBKU09OIGZpbGUuCmBgYHtyfQpjYXRlZ29yeV9pZCA9IGZyb21KU09OKGZpbGUgPSAiZGF0YS9VU19jYXRlZ29yeV9pZC5qc29uIiwgIHVuZXhwZWN0ZWQuZXNjYXBlID0gImVycm9yIikKYGBgCgo=</div>
 
 
 
