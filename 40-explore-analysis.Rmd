@@ -38,7 +38,7 @@ USvideos_NNA %>%
   theme(
     panel.grid = element_blank()
   ) +
-  scale_x_log10() 
+  scale_x_log10(labels = comma) 
 ```
 
 
@@ -57,6 +57,7 @@ USvideos_NNA %>%
     panel.grid = element_blank()
   ) +
   scale_x_discrete(labels = c("Film & Animation", "Music", "Pets & Animals", "Sports", "Travel & Events", "Autos & Vehicles", "Gaming", "People & Blogs", "Comedy", "Entertainment", "News & Politics", "Howto & Style", "Education","Science & Technology","Nonprofit", "Shows"))+
+  scale_y_continuous(labels = comma)+
   coord_flip()
 
 ```
@@ -66,15 +67,25 @@ USvideos_NNA %>%
 
 ```{r}
 USvideos_NNA %>%
-  group_by(weekday) %>%
+  mutate(weekday_num=case_when(weekday=="Monday" ~ 1,
+                               weekday=="Tuesday" ~ 2,
+                               weekday=="Wednesday" ~ 3,
+                               weekday=="Thursday" ~ 4,
+                               weekday=="Friday" ~ 5,
+                               weekday=="Saturday" ~ 6,
+                               weekday=="Sunday" ~ 7)) %>%
+  mutate(weekday_num=as.factor(weekday_num)) %>%
+  group_by(weekday_num) %>%
   mutate(num=n()) %>%
-  ggplot(aes(x=weekday)) +
+  ggplot(aes(x=weekday_num)) +
   geom_col(aes(y=num),fill="#F7000B") +
   geom_jitter(aes(y= views),size=0.2,color="black") +
   theme_minimal() +
   theme(
     panel.grid = element_blank()
   )+
+  scale_y_continuous(labels = comma)+
+  scale_x_discrete(labels=c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"))+
   coord_flip()
 
 ```
@@ -84,7 +95,9 @@ USvideos_NNA %>%
 
 ```{r}
 USvideos_NNA %>%
+  mutate(time_month=as.factor(time_month)) %>%
   group_by(time_month) %>%
+  arrange(time_month) %>% 
   mutate(num=n()) %>%
   ggplot() +
   geom_col(aes(x=time_month, y=num),fill="#F7000B") +
@@ -93,6 +106,8 @@ USvideos_NNA %>%
   theme(
     panel.grid = element_blank()
   )+
+  scale_y_continuous(labels = comma) +
+  scale_x_discrete(labels = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")) +
   coord_flip()
 
 ```
@@ -102,11 +117,14 @@ USvideos_NNA %>%
 
 ```{r}
 USvideos_NNA %>%
+  mutate(time_hour=as.factor(time_hour)) %>%
   group_by(time_hour) %>%
   mutate(num=n()) %>%
   ggplot() +
   #geom_jitter(aes(x= time_hour, y= views),size=0.2,alpha=0.7) +
-  geom_col(aes(x=time_hour, y=num),fill="#F7000B") +
+  geom_col(aes(x=time_hour, y=num),fill="#F7000B") +  
+  scale_y_continuous(labels = comma)+
+  scale_x_discrete(labels = c(19,20,21,22,23,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18)) +
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -115,8 +133,13 @@ USvideos_NNA %>%
 
 ```{r}
 USvideos_NNA %>%
+  mutate(time_hour=as.factor(time_hour)) %>%
   ggplot()+
   geom_jitter(aes(x= time_hour, y= views),size=0.2, alpha=0.7) +
+  scale_y_continuous(labels = comma)+
+  scale_x_discrete(labels = c(19,20,21,22,23,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18)) +
+
+
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -128,7 +151,9 @@ USvideos_NNA %>%
   group_by(chr_row_num) %>%
   mutate(num=n()) %>%
   ggplot()+
-  geom_line(aes(x=chr_row_num,y=num)) +
+  geom_line(aes(x=chr_row_num,y=num),size=1,color="#F7000B") +
+    scale_x_log10()+
+
   # geom_smooth(aes(x=chr_row_num,y=num),color="#F7000B") +
   theme_minimal() +
   theme(
@@ -138,8 +163,12 @@ USvideos_NNA %>%
 
 ```{r}
 USvideos_NNA %>%
+  filter(chr_row_num<200) %>%
   ggplot() +
-  geom_jitter(aes(x=chr_row_num,y=views), size=0.01,color="#F7000B", alpha=0.7) +
+  geom_jitter(aes(x=chr_row_num,y=views), size=0.25, alpha=0.7,width = 0.03) +
+  scale_y_continuous(labels = comma)+
+  scale_x_log10()+
+
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -151,8 +180,8 @@ USvideos_NNA %>%
   group_by(pattern_num) %>%
   mutate(num=n()) %>%
   ggplot()+
-  geom_line(aes(x=pattern_num,y=num)) +
-  geom_smooth(aes(x=pattern_num,y=num), color="#F7000B", method = "loess")+
+  geom_line(aes(x=pattern_num,y=num),size=1,color="#F7000B") +
+  geom_smooth(aes(x=pattern_num,y=num), color="#F7000B", method = "loess") +
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -162,7 +191,9 @@ USvideos_NNA %>%
 ```{r}
 USvideos_NNA %>%
   ggplot() +
-  geom_jitter(aes(x=pattern_num,y=views), size=0.01,color="#F7000B", alpha=0.7) +
+  geom_jitter(aes(x=pattern_num,y=views), size=0.25, alpha=0.7) +
+  scale_y_continuous(labels = comma)+
+
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -175,7 +206,7 @@ USvideos_NNA %>%
   mutate(num=n()) %>%
   ggplot()+
   geom_line(aes(x=chr_length,y=num))  +
-  geom_smooth(aes(x=chr_length,y=num), color="#F7000B")  +
+  geom_smooth(aes(x=chr_length,y=num), color="#F7000B", size=1.5)  +
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -186,7 +217,9 @@ USvideos_NNA %>%
 ```{r}
 USvideos_NNA %>%
   ggplot() +
-  geom_jitter(aes(x=chr_length,y=views), size=0.01,color="#F7000B", alpha=0.7) +
+  geom_jitter(aes(x=chr_length,y=views), size=0.25,alpha=0.7) +
+  scale_y_continuous(labels = comma)+
+
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -198,7 +231,7 @@ USvideos_NNA %>%
   group_by(chr_upper_num) %>%
   mutate(num=n()) %>%
   ggplot()+
-  geom_line(aes(x=chr_upper_num,y=num)) +
+  geom_line(aes(x=chr_upper_num,y=num),color="#F7000B",size=1) +
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -208,7 +241,9 @@ USvideos_NNA %>%
 ```{r}
 USvideos_NNA %>%
   ggplot() +
-  geom_jitter(aes(x=chr_upper_num,y=views), size=0.01,color="#F7000B", alpha=0.7) +
+  geom_jitter(aes(x=chr_upper_num,y=views), size=0.25, alpha=0.7) +
+  scale_y_continuous(labels = comma)+
+
   theme_minimal() +
   theme(
     panel.grid = element_blank()
@@ -219,8 +254,10 @@ USvideos_NNA %>%
 ```{r}
 USvideos_NNA %>%
   ggplot()+
-  geom_jitter(aes(x=likes_rate, y= views),size=0.2,color="#F7000B", alpha=0.7)+
-  scale_x_log10() +
+  geom_jitter(aes(x=likes_rate, y= views),size=0.25, alpha=0.5, width = 0.05)+
+  scale_y_continuous(labels = comma)+
+
+  scale_x_log10(labels = comma) +
   theme_minimal() +
   theme(
     panel.grid = element_blank()
