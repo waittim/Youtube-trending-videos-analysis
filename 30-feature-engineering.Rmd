@@ -229,17 +229,18 @@ class_level(USvideos_NNA, views) %>%
 
 Now use the functions we defined before to complish the feature engineering.
 ```{r feature engineering}
-USvideos_NNA <- class_level(USvideos_NNA, views)
-USvideos_NNA <- get_ratio(USvideos_NNA, likes, dislikes)
-USvideos_NNA <- get_day_point(USvideos_NNA, "trending_date")
-USvideos_NNA <- get_time_point(USvideos_NNA, "publish_time")
-USvideos_NNA <- get_weekday(USvideos_NNA, publish_time)
-USvideos_NNA <- count_rows(USvideos_NNA, description)
-USvideos_NNA <- count_pattern(USvideos_NNA, tags)
-USvideos_NNA <- get_chr_length(USvideos_NNA, title)
-USvideos_NNA <- count_uppercase(USvideos_NNA, title)
-USvideos_NNA <- count_symbol(USvideos_NNA, title) 
-USvideos_NNA <- convert_to_01(USvideos_NNA, comments_disabled, ratings_disabled, video_error_or_removed)
+USvideos_NNA <- USvideos_NNA %>%
+  class_level(views) %>%
+  get_ratio(likes, dislikes) %>%
+  get_day_point(trending_date) %>%
+  get_time_point(publish_time) %>%
+  get_weekday(publish_time) %>%
+  count_rows(description) %>%
+  count_pattern(tags) %>%
+  get_chr_length(title) %>%
+  count_uppercase(title) %>%
+  count_symbol(title) %>%
+  convert_to_01(comments_disabled, ratings_disabled, video_error_or_removed)
 ```
 
 A quick overview after the feature engineering result.
