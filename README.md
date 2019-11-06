@@ -11,3 +11,4 @@ Being able to predict if a YouTube video is likely to be trending or not is high
 
 The dataset comes from Kaggle dataset ["Trending YouTube Video Statistics"](https://www.kaggle.com/datasnaek/youtube-new), was collected using the YouTube API. 
 
+**Analysis Achievement:** pleack check ~/Slide-doc/[Youtube-Trending-Video-Analysis.pdf](https://github.com/waittim/Youtube-trending-videos-analysis/blob/master/Slide-doc/Youtube-Trending-Video-Analysis.pdf)
